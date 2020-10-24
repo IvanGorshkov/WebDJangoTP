@@ -22,11 +22,11 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('settings/', views.settings),
     path('tag/<slug:tag>/', views.tag, name='hot'),
-    path('question/<int:id>/', views.question, name='question_number'),
+    path('question/<int:id>/', views.question, name='question'),
     path('login/', views.login, name='login'),
     path('settings/', views.settings, name='settings'),
     path('register/', views.register, name='register'),
-    path('question/', views.question, name='question'),
+    path('new_question/', views.new_question, name='new_question'),
     path('hot/', views.hot, name='hot')
 ]
 

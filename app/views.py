@@ -27,7 +27,7 @@ def settings(request):
 def register(request):
     return render(request, 'register.html', {})
 
-def question(request):
+def new_question(request):
     return render(request, 'question.html', {})
 
 def hot(request):
