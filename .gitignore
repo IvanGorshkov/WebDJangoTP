@@ -1,0 +1,9 @@
+venv
+node_modules
+.idea
+.vscode
+*.pyc
+pycache
+bin/
+lib/
+pyvenv.cfg
