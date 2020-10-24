@@ -1,0 +1,40 @@
+{%  extends 'inc/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="row question-box question-box-answer">
+    <div class="col-2">
+      <img class="question-img" src=" {% static "img/180.png" %}"/>
+      <div class="row likes">
+        <span class="col-12"> 10  <img class="question-like" src=" {% static "img/like.png" %}"/> </span>
+      </div>
+    </div>
+    <div class="col-10">
+      <div class="question-title">How to Built a moon park?</div>
+      <div class="question-text">Gues with a moon park! Please help meGues with a moon park! Please help meGues with a moon park! Please help meGues with a moon park! Please help meGues with a moon park! Please help me</div>
+      <div class="row question-footer">
+        <div class="col-10 question-tags"> Tags:
+          <a href="#">black-jack</a>
+          <a href="#">bender</a>
+          <a href="#">bender</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+{% include 'inc/one_answer.html' %}
+{% include 'inc/one_answer.html' %}
+{% include 'inc/one_answer.html' %}
+{% include 'inc/one_answer.html' %}
+  <hr/>
+  <form>
+    <div class="form-group row">
+      <textarea type="textarea" class="form-control textarea-text" id="inputText" placeholder="Enter your answer here..."></textarea>
+    </div>
+
+    <div class="form-group row">
+      <button type="submit" class="btn btn-primary answer-btn">Answer!</button>
+    </div>
+  </form>
+
+{% endblock content %}

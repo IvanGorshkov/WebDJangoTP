@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCKTYPE HTML>
+<html lang="ru" class="h-100 gr__bootstrap-4_ru">
+    <head>
+      <meta charset="utf-8">
+      <title>AskTechnoPark</title>
+      <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+      <link href="{% static "css/my_css.css" %}" rel="stylesheet">
+    </head>
+    <body>
+    {% include 'inc/navbar.html' %}
+        <main role="main" class="flex-shrink-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+                    {% block content %}
+                    {% endblock content %}
+                    </div>
+                    <div class="col-3 side">
+                        {% include 'inc/right_menu.html' %}
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src = "{% static "js/jquery.slim.min.js" %}"></script>
+        <script src = "{% static "js/popper.min.js" %}"></script>
+        <script src = "{% static "js/bootstrap.min.js" %}"></script>
+    </body>
+</html>

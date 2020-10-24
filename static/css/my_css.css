@@ -1,0 +1,195 @@
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+main > .container {
+  padding: 70px 15px 0;
+}
+
+code {
+  font-size: 80%;
+}
+
+.question-box {
+	margin-top: 15px;
+	margin-right: 30px;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 20px;
+}
+.question-img {
+	max-width: 100px;
+	border-radius: 100%;
+}
+
+.question-title {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.question-footer {
+	margin: 30px 0px 0px 0px;
+}
+.question-aswers {
+	margin: 0;
+	padding: 0;
+}
+.question-tags {
+	margin: 0;
+	padding: 0;
+}
+.question-like {
+	max-width: 20px;
+	max-height: 20px;
+	margin: auto 0;
+	transform: translate(0, -10%);
+}
+.likes {
+	margin-top: 10px;
+	margin-left: 0px;
+	text-align: right;
+	max-width: 100px;
+	font-size: 20px;
+}
+
+.type-question {
+	margin-top: 10px;
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+
+.side {
+	font-size: 25px;
+	font-weight: bold;
+	margin: 45px 0px;
+}
+
+.list {
+	width: 100%;
+	padding-left: 20px;
+}
+.list-item {
+	font-size: 14px;
+	font-weight: normal;
+	list-style-type: none;
+	margin: 10px;
+}
+.pagination {
+	margin-top: 10px;
+}
+
+.tag {
+	font-size: 14px;
+	font-weight: normal;
+	margin: 5px;
+}
+.popluar{
+	font-size: 18px;
+	font-weight: 500;
+	color: red;
+}
+.very-popluar {
+	font-size: 20px;
+	font-weight: 600;
+	color: darkviolet;
+}
+
+.navbar {
+	position: fixed;
+	width: 100%;
+	background-color: #343a40;
+	margin-left: 0px;
+	z-index: 1000;
+}
+.navbar-brand {
+	color: white;
+}
+.search{
+	display: flex;  
+ 	 margin: auto;
+}
+.info {
+	color: white;
+	text-align: center;
+}
+.avatarCol {
+	position: relative;
+	
+}
+.avatar{
+	position: absolute;
+	display: flex;  
+ 	left: 100%;
+	transform: translate(-100%, 0);
+	max-width: 50px;
+	border-radius: 100%;
+	
+}
+
+.hot-questions{
+	font-size: 20px;
+	margin: auto 0;
+}
+
+a {
+ text-decoration: underline;  
+}
+form {
+	margin-top: 20px;
+}
+
+.login {
+	margin: 0 10px;
+}
+
+.error {
+	margin-top: 10px;
+	margin-left: 0px;
+	margin-bottom: 0px;
+	color: red;
+}
+
+.custom-file-label {
+    width: 94%;
+    margin-left: 10px;
+}
+
+.container-settings {
+	width: 100%;
+}
+.settings-file {
+    width: 100%;
+    margin-left: 0px;
+	
+}
+.img-settings {
+	max-width: 100px;
+	border-radius: 100%;
+	margin: 10px;
+}
+
+.question-box-answer {
+	border: none;
+}
+.answer-box{
+	margin-top: 15px;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 20px;
+	
+}
+
+.form-group {
+	margin: 10px;
+}
+
+.answer-btn {
+	margin-bottom: 100px;
+}
+
+.textarea-text {
+	min-height: 100px;
+	max-height: 200px;
+}
