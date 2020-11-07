@@ -2,12 +2,11 @@
 {% load static %}
 {% block content %}
 <div class="row type-question">
-    <div class="col-3 hot-questions"><a href="#">New Question</a></div>
+    <div class="col-3 hot-questions"><a href="{% url  'index'%}">New Question</a></div>
     <div class="col-4">Hot Question</div>
 </div>
-    {% include 'inc/one_guestion.html' %}
-    {% include 'inc/one_guestion.html' %}
-    {% include 'inc/one_guestion.html' %}
-    {% include 'inc/one_guestion.html' %}
+   {% for question in questions  %}
+         {% include 'inc/one_guestion.html' %}
+    {% endfor %}
     {% include 'inc/pagination.html' %}
 {% endblock content %}

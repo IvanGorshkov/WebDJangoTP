@@ -207,3 +207,15 @@ form {
     text-align: center;
     font-size: 15px;
 }
+
+.mr-sm-2 {
+	width: 100%;
+}
+.title {
+	align-items: center;
+	display: flex
+}
+.ask {
+	max-height: 10px;
+	transform: translate(0, -15px);
+}

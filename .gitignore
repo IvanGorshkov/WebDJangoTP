@@ -4,8 +4,6 @@ node_modules
 .vscode
 *.pyc
 pycache
+db.sqlite3
 bin/
 lib/
-pyvenv.cfg
-db.sqlite3
-

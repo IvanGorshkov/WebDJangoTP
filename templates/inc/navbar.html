@@ -1,33 +1,36 @@
 {% load static %}
 
 {% block navbar %}
-<div class="row navbar">
-    <div class="col-2">
-      <a class="navbar-brand" href="">AskTechnoPark</a>
-    </div>
-    <div class="col-7">
-      <form class="search">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ASK!</button>
-      </form>
-    </div>
-    <div class="col-3 info">
-      <div class="row">
-        <div class="col-3 avatarCol">
-          <img class="avatar" src= " {% static "img/180.png" %}" />
+    <div class="row navbar">
+        <div class="col-3 title" style="max-width: max-content">
+          <a class="navbar-brand" href="{% url  'index'%}">AskTechnoPark</a>
+          <form action=" {% url 'ask' %}" class="ask">
+              <button class="btn btn-outline-success " type="submit">NEW ASK!</button>
+          </form>
         </div>
-        <div class="col-9">
+        <div class="col-6">
+          <form class="search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ASK!</button>
+          </form>
+        </div>
+        <div class="col-3 info">
           <div class="row">
-            <div class="col-6">
-              Dr. Papper
+            <div class="col-3 avatarCol">
+              <img class="avatar" src= " {% static "img/180.png" %}" />
+            </div>
+            <div class="col-9">
+              <div class="row">
+                <div class="col-6">
+                  Dr. Papper
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3"><a href="{% url  'settings'%}">settings</a></div>
+                <div class="col-4"><a href="{% url  'index'%}">log out</a></div>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-3"><a href="#">settings</a></div>
-            <div class="col-4"><a href="#">log out</a></div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 {% endblock navbar %}

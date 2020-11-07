@@ -2,23 +2,23 @@
 
 <div class="row question-box">
     <div class="col-2">
-      <img class="question-img" src=" {% static "img/180.png" %}" />
+      <img class="question-img" src=" {% static question.pic %}" />
       <div class="row likes">
-        <span class="like-span"> 150  <img class="question-like" src=" {% static "img/disslike.png" %}"/></span>
-        <span class="like-span"> 150  <img class="question-like" src=" {% static "img/like.png" %}"/> </span>
+        <span class="like-span"> {{ question.dislike }}  <img class="question-like" src=" {% static "img/disslike.png" %}"/></span>
+        <span class="like-span"> {{ question.like }}  <img class="question-like" src=" {% static "img/like.png" %}"/> </span>
       </div>
     </div>
     <div class="col-10">
-      <div class="question-title"><a href="#">How to Built a moon park?</a></div>
-      <div class="question-text">Guys, i have trapbles with a moon park! Please help me Guys, i have trapbles with a moon park! Please help me Guys, i have trapbles with a moon park! Please help meGuys, i have trapbles with a moon park! Please help me Guys, i have trapbles with a moon park! Please help me</div>
-      <div class="row question-footer">
-        <div class="col-2 question-aswers"><a href="#">answers(3)</a></div>
+      <div class="question-title"><a href="{% url 'question' id=question.id %}">{{ question.title }}</a></div>
+        <div class="question-text">{{ question.text }}</div>
+        <div class="row question-footer">
+        <div class="col-2 question-aswers"><a href=" {% url 'question' id=question.id %}">answers(3)</a></div>
         <div class="col-5 question-tags"> Tags:
-          <a href="#">black-jack</a>
-          <a href="#">bender</a>
-          <a href="#">bender</a>
+            {% for tag in question.tag  %}
+              <a href={% url 'tag' tag=tag %}>{{ tag }}</a>
+            {%  endfor %}
         </div>
-        <div class="col-5 date"> Date: 12.12.2020 </div>
+        <div class="col-5 date"> Date: {{ question.date }} </div>
       </div>
   </div>
 </div>
