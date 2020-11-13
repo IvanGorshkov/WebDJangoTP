@@ -1,10 +1,11 @@
 {% load static %}
 <div class="row question-box question-box-answer">
     <div class="col-2">
-      <img class="question-img" src=" {% static one_question.pic %}" />
+      <img class="question-img" src=" {% static one_question.author.avatar %}" />
       <div class="row likes">
-        <span class="like-span"> {{ one_question.dislike }}  <img class="question-like" src = "{% static "img/disslike.png" %}"/></span>
-        <span class="like-span"> {{ one_question.like }}  <img class="question-like" src = "{% static "img/like.png" %}"/> </span>
+          <span class="like-span"> <img class="question-like" src=" {% static "img/disslike.png" %}"/> </span>
+          <span class="like-span"> {{ question.likes }} </span>
+          <img class="question-like" src=" {% static "img/like.png" %}"/>
       </div>
     </div>
     <div class="col-10">
@@ -12,8 +13,8 @@
       <div class="question-text">{{ one_question.text }}</div>
       <div class="row question-footer">
         <div class="col-5 question-tags"> Tags:
-          {% for tag in one_question.tag  %}
-              <a href={% url 'tag' tag=tag %}>{{ tag }}</a>
+            {% for tag in one_question.all_tags  %}
+              <a href={% url 'tag' tag=tag %}>{{ tag.title }}</a>
             {%  endfor %}
         </div>
         <div class="col-7 date"> Date: {{ one_question.date }} </div>

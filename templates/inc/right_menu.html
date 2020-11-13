@@ -19,7 +19,7 @@
     <div class="col-12"> Best Members </div>
     <ul class="list">
         {% for user in users %}
-           <li class="list-item"> <a href="">{{ user }}</a>
+           <li class="list-item"> <a href="">{{ user.author__nick }}</a>
         {% endfor %}
     </ul>
 </div>

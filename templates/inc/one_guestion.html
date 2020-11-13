@@ -2,20 +2,21 @@
 
 <div class="row question-box">
     <div class="col-2">
-      <img class="question-img" src=" {% static question.pic %}" />
+      <img class="question-img" src=" {% static question.author.avatar %}" />
       <div class="row likes">
-        <span class="like-span"> {{ question.dislike }}  <img class="question-like" src=" {% static "img/disslike.png" %}"/></span>
-        <span class="like-span"> {{ question.like }}  <img class="question-like" src=" {% static "img/like.png" %}"/> </span>
+          <span class="like-span"> <img class="question-like" src=" {% static "img/disslike.png" %}"/> </span>
+          <span class="like-span"> {{ question.likes }} </span>
+          <img class="question-like" src=" {% static "img/like.png" %}"/>
       </div>
     </div>
     <div class="col-10">
       <div class="question-title"><a href="{% url 'question' id=question.id %}">{{ question.title }}</a></div>
         <div class="question-text">{{ question.text }}</div>
         <div class="row question-footer">
-        <div class="col-2 question-aswers"><a href=" {% url 'question' id=question.id %}">answers(3)</a></div>
+        <div class="col-2 question-aswers"><a href=" {% url 'question' id=question.id %}">answers({{ question.count_answers }})</a></div>
         <div class="col-5 question-tags"> Tags:
-            {% for tag in question.tag  %}
-              <a href={% url 'tag' tag=tag %}>{{ tag }}</a>
+            {% for tag in question.all_tags  %}
+              <a href={% url 'tag' tag=tag %}>{{ tag.title }}</a>
             {%  endfor %}
         </div>
         <div class="col-5 date"> Date: {{ question.date }} </div>

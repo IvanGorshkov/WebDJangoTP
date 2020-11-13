@@ -1,37 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-
-
-def rightbar(request):
-    return {
-        'say': "dssd"
-    }
-
-best_rightbar = {
-    'tags': [{
-        'pop': 1,
-        'tag_name': 'MySQL'
-    }, {
-        'pop': 2,
-        'tag_name': 'Perl'
-    }, {
-        'pop': 3,
-        'tag_name': 'Python'
-    }, {
-        'pop': 3,
-        'tag_name': 'TechnoPark'
-    }, {
-        'pop': 1,
-        'tag_name': 'DJango'
-    }, {
-        'pop': 2,
-        'tag_name': 'Mail'
-    }, {
-        'pop': 1,
-        'tag_name': 'FireFox'
-    }],
-    'users': ['Ivan Gorshkov', 'Oleg Urgens', 'Fedor Surovcev', 'Prohor Surovcev', 'Ivan Hilko'],
-}
+from app.models import Questions, Answers
 
 questions = [
     {
@@ -60,14 +29,13 @@ questions = [
 ]
 
 def index(request):
-    paginator = Paginator(questions, 5)
+    paginator = Paginator(Questions.objects.new(), 5)
     page = request.GET.get('page')
     paginator = paginator.get_page(page)
 
     return render(request, 'index.html', {
         'questions': paginator,
         'paginator': paginator,
-        **best_rightbar
     })
 
 
@@ -76,61 +44,50 @@ def settings(request):
 
 
 def tag(request, tag):
-    paginator = Paginator(questions, 5)
+    paginator = Paginator(Questions.objects.tag(tag), 5)
     page = request.GET.get('page')
     paginator = paginator.get_page(page)
     return render(request, 'tag.html', {
         'tag': tag,
         'questions': paginator,
         'paginator': paginator,
-        **best_rightbar
     })
 
 
 def question(request, id):
-    paginator = Paginator(questions[id]['answers'], 5)
+    paginator = Paginator(Answers.objects.answers_by_question(id), 5)
     page = request.GET.get('page')
     paginator = paginator.get_page(page)
     return render(request, 'answer.html', {
         'id': id,
-        'one_question': questions[id],
+        'one_question': Questions.objects.one_question(id),
         'answers': paginator,
         'paginator': paginator,
-        **best_rightbar
     })
 
 
 def login(request):
-    return render(request, 'login.html', {
-        **best_rightbar
-    })
+    return render(request, 'login.html', {})
 
 
 def settings(request):
-    return render(request, 'settings.html', {
-        **best_rightbar
-    })
+    return render(request, 'settings.html', {})
 
 
 def register(request):
-    return render(request, 'register.html', {
-        **best_rightbar
-    })
+    return render(request, 'register.html', {})
 
 
 def ask(request):
-    return render(request, 'question.html', {
-        **best_rightbar
-    })
+    return render(request, 'question.html', {})
 
 
 def hot(request):
-    paginator = Paginator(questions, 5)
+    paginator = Paginator(Questions.objects.hot(), 5)
     page = request.GET.get('page')
     paginator = paginator.get_page(page)
 
     return render(request, 'hot.html', {
         'questions': paginator,
         'paginator': paginator,
-        **best_rightbar
     })
