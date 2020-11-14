@@ -1,9 +1,11 @@
 from django.db import models
 from django.db.models import Count
+from django.contrib.auth.models import User
+
 
 class QuestionManager(models.Manager):
     def new(self):
-        return self.order_by('-date')
+        return self.order_by('-pk')
 
     def hot(self):
         return self.order_by('-views')
@@ -12,18 +14,21 @@ class QuestionManager(models.Manager):
         return self.filter(tags__title=selected_tag).order_by('-date')
 
     def one_question(self, id):
-        return self.filter(pk=id).first()
+        return self.get(pk=id)
 
 
 class Questions(models.Model):
     title = models.CharField(max_length=1024, verbose_name='Заголовок')
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     text = models.TextField(verbose_name="Вопрос")
-    tags = models.ManyToManyField('Tags')
+    tags = models.ManyToManyField('Tags', blank=True)
     date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     likes = models.IntegerField(default=0, verbose_name='Лайки')
     views = models.IntegerField(default=0, verbose_name='Просмотры')
     objects = QuestionManager()
+
+    def get_avatar(self):
+        return self.author.avatar
 
     def all_tags(self):
         return self.tags.all()
@@ -45,13 +50,16 @@ class AnswerManager(models.Manager):
 
 
 class Answers(models.Model):
-    text = models.TextField(verbose_name="Отыет")
-    correct = models.BooleanField(verbose_name="Правильность")
+    text = models.TextField(verbose_name="Ответ")
+    correct = models.BooleanField(default=False, verbose_name="Правильность")
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     likes = models.IntegerField(default=0, verbose_name='Лайки')
     question = models.ForeignKey('Questions', on_delete=models.CASCADE)
     objects = AnswerManager()
+
+    def get_avatar(self):
+        return self.author.avatar
 
     def __str__(self):
         return self.text
@@ -61,8 +69,16 @@ class Answers(models.Model):
         verbose_name_plural = 'Ответы'
 
 
+class TagsManager(models.Manager):
+    def popular_tags(self):
+        query_result = Questions.objects.values('tags').values('tags__title').annotate(disease_count=Count('tags__id')).order_by(
+            '-disease_count')[:10]
+        return query_result
+
+
 class Tags(models.Model):
     title = models.CharField(max_length=1024, verbose_name='Тег')
+    objects = TagsManager()
 
     def __str__(self):
         return self.title
@@ -75,19 +91,17 @@ class Tags(models.Model):
 class UsersManager(models.Manager):
     def popular_users(self):
         query_result = Answers.objects.values('author__id').annotate(disease_count=Count('author__id')).order_by('-disease_count')
-        return query_result.values('author__id').values('author__nick')[:3]
+        return query_result.values('author__id').values('author__nick')[:5]
 
 
 class Users(models.Model):
-    login = models.CharField(max_length=100, verbose_name='Логин')
-    email = models.EmailField(max_length=100, verbose_name='Почта')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     nick = models.CharField(max_length=100, verbose_name='Логин')
-    password = models.CharField(max_length=100, verbose_name='Пароль')
-    avatar = models.ImageField(max_length=1024, verbose_name='Аватар')
+    avatar = models.ImageField(max_length=1024, default="/27804.png", verbose_name='Аватар')
     objects = UsersManager()
 
     def __str__(self):
-        return self.login
+        return self.nick
 
     class Meta:
         verbose_name = 'Пользователь'

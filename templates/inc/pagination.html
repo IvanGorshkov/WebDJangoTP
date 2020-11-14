@@ -2,8 +2,8 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item">
-          {% if paginator.has_previous %}
-            <a class="page-link" href="?page={{ paginator.previous_page_number }}" aria-label="Previous">
+          {% if data.has_previous %}
+            <a class="page-link" href="?page={{ data.previous_page_number }}" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           {% else %}
@@ -11,19 +11,19 @@
           {% endif %}
       </li>
 
-    {% for n in paginator.paginator.page_range %}
-      {% if paginator.number == n %}
+    {% for n in data.paginator.page_range %}
+      {% if data.number == n %}
         <li class="page-item active">
           <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
         </li>
-      {% elif n > paginator.number|add:'-3' and n < paginator.number|add:'3' %}
+      {% elif n > data.number|add:'-3' and n < data.number|add:'3' %}
         <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
       {% endif %}
     {% endfor %}
 
       <li class="page-item">
-          {% if paginator.has_next %}
-            <a class="page-link" href="?page={{ paginator.next_page_number }}" aria-label="Previous">
+          {% if data.has_next %}
+            <a class="page-link" href="?page={{ data.next_page_number }}" aria-label="Previous">
               <span aria-hidden="true">&raquo;</span>
             </a>
           {% else %}

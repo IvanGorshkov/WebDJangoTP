@@ -2,7 +2,8 @@
 
 <div class="row answer-box">
 <div class="col-2">
-  <img class="question-img" src=" {% static answer.author.avatar %}" />
+  <div class="user_name"> {{ answer.author.nick }} </div>
+  <img class="question-img" src=" {% static answer.get_avatar %}" />
   <div class="row likes">
       <span class="like-span"> <img class="question-like" src=" {% static "img/disslike.png" %}"/> </span>
       <span class="like-span"> {{ answer.likes }} </span>

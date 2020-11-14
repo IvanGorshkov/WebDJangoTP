@@ -2,14 +2,16 @@
     <div class="col-12"> Popular Tags
       <div>
         {% for tag in tags %}
-            {% if tag.pop == 1 %}
-               <a href="{% url 'tag' tag=tag.tag_name %}" class="tag very-popluar">{{ tag.tag_name }}</a>
-            {% endif %}
-            {% if tag.pop == 2 %}
-               <a href="{% url 'tag' tag=tag.tag_name %}" class="tag popluar">{{ tag.tag_name }}</a>
-            {% endif %}
-            {% if tag.pop == 3 %}
-               <a href="{% url 'tag' tag=tag.tag_name %}" class="tag">{{ tag.tag_name }}</a>
+            {% if tag.disease_count > 65 %}
+               <a href="{% url 'tag' tag=tag.tags__title %}" class="tag very-popluar">{{ tag.tags__title }}</a>
+            {% else %}
+                {% if tag.disease_count > 60 %}
+               <a href="{% url 'tag' tag=tag.tags__title %}" class="tag popluar">{{ tag.tags__title }}</a>
+                {% else %}
+                    {% if tag.disease_count > 0 %}
+                    <a href="{% url 'tag' tag=tag.tags__title %}" class="tag">{{ tag.tags__title }}</a>
+                    {% endif %}
+                {% endif %}
             {% endif %}
         {% endfor %}
       </div>

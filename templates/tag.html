@@ -4,7 +4,7 @@
 <div class="row type-question">
     <div class="col-3">Tag: <a>#{{ tag }}</a></div>
 </div>
-    {% for question in questions  %}
+    {% for question in data  %}
          {% include 'inc/one_guestion.html' %}
     {% endfor %}
 

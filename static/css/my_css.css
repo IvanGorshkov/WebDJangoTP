@@ -45,8 +45,7 @@ code {
 	transform: translate(0, -10%);
 }
 .likes {
-	margin-top: 10px;
-	margin-left: 0px;
+	margin: 10px;
 	text-align: right;
 	max-width: 100px;
 	font-size: 11px;
@@ -218,4 +217,8 @@ form {
 .ask {
 	max-height: 10px;
 	transform: translate(0, -15px);
+}
+
+.user_name {
+	text-align: center;
 }
