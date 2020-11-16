@@ -3,9 +3,12 @@ from app.models import Questions, Answers, Tags, Users, QuestionsLikes, AnswersL
 from django.contrib.auth.models import User
 from random import randint, choice, choices
 from faker import Faker
+from itertools import islice
+import datetime
 
 f = Faker()
 
+very_small = [10, 20, 400, 1000, 300, 1000]
 small = [100, 200, 4000, 10000, 3000, 10000]
 medium = [1000, 2000, 40000, 100000, 30000, 100000]
 large = [10000, 10000, 100000, 1000000, 1000000, 1000000]
@@ -23,6 +26,17 @@ class Command(BaseCommand):
         parser.add_argument('--likes_questions', type=int, help='Questions likes count')
         parser.add_argument('--likes_answers', type=int, help='Answers likes count')
 
+    def insert_data(self, model, data):
+        step = 1000
+        start = 0
+        while True:
+            models = list(islice(data, start, step))
+            if not models:
+                break
+            model.objects.bulk_create(models, step - start)
+            start = step
+            step += 1000
+
     def generate_users(self, cnt):
         if cnt is None:
             return False
@@ -33,104 +47,103 @@ class Command(BaseCommand):
             User(username=f.first_name() + str(i), email=f.email())
             for i in range(cnt)
         ]
-        User.objects.bulk_create(users, cnt)
-
+        self.insert_data(User, users)
+        author_ids = list(User.objects.values_list('id', flat=True))
         objs = [
             Users(
-                user=User.objects.get(pk=i),
+                user_id=author_ids[i - 1],
                 nick=User.objects.get(pk=i).username
             ) for i in range(1, cnt + 1)
         ]
-
-        Users.objects.bulk_create(objs, cnt)
+        self.insert_data(Users, objs)
 
     def generate_tags(self, cnt):
         if cnt is None:
             return False
 
         print('Generate {} tags'.format(cnt))
-
         tags = [
             Tags(
                 title=f.word() + str(i)
             ) for i in range(cnt)
         ]
-
-        Tags.objects.bulk_create(tags, cnt)
+        self.insert_data(Tags, tags)
 
     def generate_questions(self, cnt):
         if cnt is None:
             return False
 
         print('Generate {} questions'.format(cnt))
-        author_ids = list(Users.objects.all())
-        tags_ids = list(Tags.objects.all())
+        author_ids = list( Users.objects.values_list('id', flat=True))
+        tags_ids = list(Tags.objects.values_list('id', flat=True))
+        print('start generate array of questions {}'.format(datetime.datetime.now()))
         questions = [
             Questions(
                 title=f.sentence(nb_words=10),
                 text=f.paragraph(nb_sentences=5),
                 date=f.date_this_year(),
                 rating=f.pyint(0, 1000),
-                author=choice(author_ids)
-            ) for i in range(cnt)
+                author_id=choice(author_ids)
+            ) for _ in range(cnt)
         ]
-
-        Questions.objects.bulk_create(questions, cnt)
-
+        print('end generate array of questions {}'.format(datetime.datetime.now()))
+        print('start add questions to DB {}'.format(datetime.datetime.now()))
+        self.insert_data(Questions, questions)
+        print('end add questions to DB {}'.format(datetime.datetime.now()))
+        print('start add tags to questions to DB {}'.format(datetime.datetime.now()))
         for item in Questions.objects.all():
-            for i in set(choices(tags_ids, k=randint(1, 7))):
+            for i in set(choices(tags_ids, k=randint(0, 6))):
                 item.tags.add(i)
-            item.save()
+        print('end add tags to questions to DB {}'.format(datetime.datetime.now()))
 
     def generate_answers(self, cnt):
         if cnt is None:
             return False
 
         print('Generate {} answers'.format(cnt))
-        author_ids = list(Users.objects.all())
-        question_ids = list(Questions.objects.all())
+        author_ids = list(Users.objects.values_list('id', flat=True))
+        question_ids = list(Questions.objects.values_list('id', flat=True))
         answers = [
             Answers(
                 text=f.paragraph(nb_sentences=10),
                 correct=choice([True, False]),
-                author=choice(author_ids),
+                author_id=choice(author_ids),
                 date=f.date_this_year(),
                 rating=f.pyint(0, 1000),
-                question=choice(question_ids)
+                question_id=choice(question_ids)
             ) for _ in range(cnt)
         ]
-
-        Answers.objects.bulk_create(answers, cnt)
+        self.insert_data(Answers, answers)
 
     def generate_likes_questions(self, cnt):
         if cnt is None:
             return
         print('Generate {} likes_questions'.format(cnt))
-        author_ids = list(Users.objects.all())
-        question_ids = list(Questions.objects.all())
+        author_ids = list(Users.objects.values_list('id', flat=True))
+        question_ids = list(Questions.objects.values_list('id', flat=True))
         likes = [
             QuestionsLikes(
-                question=choice(question_ids),
-                author=choice(author_ids),
+                question_id=choice(question_ids),
+                author_id=choice(author_ids),
                 status=choice([True, False]),
             ) for _ in range(cnt)
         ]
-        QuestionsLikes.objects.bulk_create(likes, cnt)
+        self.insert_data(QuestionsLikes, likes)
 
     def generate_likes_answers(self, cnt):
         if cnt is None:
             return
         print('Generate {} likes_answers'.format(cnt))
-        author_ids = list(Users.objects.all())
-        answers_ids = list(Answers.objects.all())
+        author_ids = list(Users.objects.values_list('id', flat=True))
+        answers_ids = list(Answers.objects.values_list('id', flat=True))
         likes = [
             AnswersLikes(
-                answer=choice(answers_ids),
-                author=choice(author_ids),
+                answer_id=choice(answers_ids),
+                author_id=choice(author_ids),
                 status=choice([True, False]),
             ) for _ in range(cnt)
         ]
-        AnswersLikes.objects.bulk_create(likes, cnt)
+        self.insert_data(AnswersLikes, likes)
 
     def handle(self, *args, **options):
         users_count = options.get('users')
@@ -161,6 +174,14 @@ class Command(BaseCommand):
             answers_count = large[3]
             like_questions_count = large[4]
             like_answers_count = large[5]
+        else:
+            users_count = very_small[0]
+            tags_count = very_small[1]
+            questions_count = very_small[2]
+            answers_count = very_small[3]
+            like_questions_count = very_small[4]
+            like_answers_count = very_small[5]
+
         self.generate_users(users_count)
         self.generate_tags(tags_count)
         self.generate_questions(questions_count)

@@ -18,7 +18,7 @@ class QuestionManager(models.Manager):
 
 
 class Questions(models.Model):
-    title = models.CharField(max_length=1024, verbose_name='Заголовок')
+    title = models.CharField(max_length=1024, verbose_name='Заголовок', db_index=True)
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     text = models.TextField(verbose_name="Вопрос")
     tags = models.ManyToManyField('Tags', blank=True)
@@ -76,7 +76,7 @@ class TagsManager(models.Manager):
 
 
 class Tags(models.Model):
-    title = models.CharField(max_length=1024, verbose_name='Тег')
+    title = models.CharField(max_length=1024, verbose_name='Тег', db_index=True)
     objects = TagsManager()
 
     def __str__(self):
