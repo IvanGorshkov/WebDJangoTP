@@ -70,8 +70,7 @@ class Command(BaseCommand):
                 title=f.sentence(nb_words=10),
                 text=f.paragraph(nb_sentences=5),
                 date=f.date_this_year(),
-                likes=f.pyint(0, 1000),
-                views=f.pyint(0, 10000),
+                rating=f.pyint(0, 1000),
                 author=choice(author_ids)
             ) for i in range(cnt)
         ]
@@ -96,7 +95,7 @@ class Command(BaseCommand):
                 correct=choice([True, False]),
                 author=choice(author_ids),
                 date=f.date_this_year(),
-                likes=f.pyint(0, 1000),
+                rating=f.pyint(0, 1000),
                 question=choice(question_ids)
             ) for _ in range(cnt)
         ]

@@ -5,7 +5,7 @@
       <img class="question-img" src=" {% static one_question.get_avatar %}" />
       <div class="row likes">
           <span class="like-span"> <img class="question-like" src=" {% static "img/disslike.png" %}"/> </span>
-          <span class="like-span"> {{ one_question.likes }} </span>
+          <span class="like-span"> {{ one_question.rating }} </span>
           <img class="question-like" src=" {% static "img/like.png" %}"/>
       </div>
     </div>

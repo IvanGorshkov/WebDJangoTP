@@ -8,7 +8,7 @@ class QuestionManager(models.Manager):
         return self.order_by('-pk')
 
     def hot(self):
-        return self.order_by('-views')
+        return self.order_by('-rating')
 
     def tag(self, selected_tag):
         return self.filter(tags__title=selected_tag).order_by('-date')
@@ -23,8 +23,7 @@ class Questions(models.Model):
     text = models.TextField(verbose_name="Вопрос")
     tags = models.ManyToManyField('Tags', blank=True)
     date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
-    likes = models.IntegerField(default=0, verbose_name='Лайки')
-    views = models.IntegerField(default=0, verbose_name='Просмотры')
+    rating = models.IntegerField(default=0, verbose_name='Рейтинг')
     objects = QuestionManager()
 
     def get_avatar(self):
@@ -54,7 +53,7 @@ class Answers(models.Model):
     correct = models.BooleanField(default=False, verbose_name="Правильность")
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
-    likes = models.IntegerField(default=0, verbose_name='Лайки')
+    rating = models.IntegerField(default=0, verbose_name='Рейтинг')
     question = models.ForeignKey('Questions', on_delete=models.CASCADE)
     objects = AnswerManager()
 
@@ -111,7 +110,7 @@ class Users(models.Model):
 class QuestionsLikes(models.Model):
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     question = models.ForeignKey('Questions', on_delete=models.CASCADE)
-    status = models.BooleanField(null=True, verbose_name='Отметка')
+    status = models.BooleanField(default=False, verbose_name='Отметка')
 
     def __str__(self):
         return "Лайк вопроса {}".format(self.question.title)
@@ -124,7 +123,7 @@ class QuestionsLikes(models.Model):
 class AnswersLikes(models.Model):
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     answer = models.ForeignKey('Answers', on_delete=models.CASCADE)
-    status = models.BooleanField(null=True, verbose_name='Отметка')
+    status = models.BooleanField(default=False, verbose_name='Отметка')
 
     def __str__(self):
         return "Лайк ответа {}".format(self.answer.question.title)
