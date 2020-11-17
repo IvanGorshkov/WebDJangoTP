@@ -74,7 +74,7 @@ class Command(BaseCommand):
             return False
 
         print('Generate {} questions'.format(cnt))
-        author_ids = list( Users.objects.values_list('id', flat=True))
+        author_ids = list(Users.objects.values_list('id', flat=True))
         tags_ids = list(Tags.objects.values_list('id', flat=True))
         print('start generate array of questions {}'.format(datetime.datetime.now()))
         questions = [
@@ -92,8 +92,8 @@ class Command(BaseCommand):
         print('end add questions to DB {}'.format(datetime.datetime.now()))
         print('start add tags to questions to DB {}'.format(datetime.datetime.now()))
         for item in Questions.objects.all():
-            for i in set(choices(tags_ids, k=randint(0, 6))):
-                item.tags.add(i)
+            tags = list(choices(tags_ids, k=randint(0, 6)))
+            item.tags.add(*tags)
         print('end add tags to questions to DB {}'.format(datetime.datetime.now()))
 
     def generate_answers(self, cnt):

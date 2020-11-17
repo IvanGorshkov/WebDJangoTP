@@ -76,7 +76,7 @@ class TagsManager(models.Manager):
 
 
 class Tags(models.Model):
-    title = models.CharField(max_length=1024, verbose_name='Тег', db_index=True)
+    title = models.CharField(unique=True, max_length=1024, verbose_name='Тег')
     objects = TagsManager()
 
     def __str__(self):
