@@ -1,5 +1,6 @@
 {%  extends 'inc/base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 {% block content %}
 <div class="row type-question">
     <div class="col-3">Registration</div>
@@ -7,56 +8,12 @@
 <div class="row error">
     <p> Sorry, this address allready registred!</p>
 </div>
-<form>
-    <div class="form-group row">
-      <label for="inputTitle" class="col-sm-2 col-form-label login">Login</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputTitle">
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="inputEmail" class="col-sm-2 col-form-label login">Email</label>
-      <div class="col-sm-5">
-        <input type="email" class="form-control" id="inputTitle">
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="inputNickName" class="col-sm-2 col-form-label login">NickName</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputNickName">
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="inputPassword" class="col-sm-2 col-form-label login">Password</label>
-      <div class="col-sm-5">
-        <input type="password" class="form-control" id="inputPassword">
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="inputRPassword" class="col-sm-2 col-form-label login"> Repeat Password</label>
-      <div class="col-sm-5">
-        <input type="password" class="form-control" id="inputRPassword">
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="inputRPassword" class="col-sm-2 col-form-label login">Upload avatar</label>
-      <div class="col-sm-5">
-        <input type="file" class="custom-file-input" id="validatedInputGroupCustomFile" required>
-        <label class="custom-file-label" for="validatedInputGroupCustomFile">Choose file...</label>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="hidden" class="col-sm-2 col-form-label login"></label>
-      <div class="col-sm-5">
+<form class="form mt-5" method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
         <button type="submit" class="btn btn-primary">Register</button>
-      </div>
-    </div>
+    {% endbuttons %}
 </form>
 
 {% endblock content %}

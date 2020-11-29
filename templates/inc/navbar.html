@@ -14,23 +14,32 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ASK!</button>
           </form>
         </div>
+        {% if user.is_authenticated %}
         <div class="col-3 info">
           <div class="row">
             <div class="col-3 avatarCol">
-              <img class="avatar" src= " {% static "img/180.png" %}" />
+              <img class="avatar" src= " {% static avatar %}" />
             </div>
             <div class="col-9">
               <div class="row">
                 <div class="col-6">
-                  Dr. Papper
+                    {{ user.username }}
                 </div>
               </div>
               <div class="row">
                 <div class="col-3"><a href="{% url  'settings'%}">settings</a></div>
-                <div class="col-4"><a href="{% url  'index'%}">log out</a></div>
+                <div class="col-4"><a href="{% url  'logout'%}">log out</a></div>
               </div>
             </div>
           </div>
         </div>
+        {% else %}
+            <div class="col-2 info">
+              <div class="row">
+                <div class="col-4"><a href="{% url  'login'%}">log in</a></div>
+                <div class="col-4"><a href="{% url  'register'%}">register</a></div>
+              </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock navbar %}

@@ -8,3 +8,4 @@ db.sqlite3
 bin/
 lib/
 *.png
+/static/uploads

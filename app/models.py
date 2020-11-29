@@ -27,7 +27,7 @@ class Questions(models.Model):
     objects = QuestionManager()
 
     def get_avatar(self):
-        return self.author.avatar
+        return self.author.avatar.url[8:]
 
     def all_tags(self):
         return self.tags.all()
@@ -58,7 +58,7 @@ class Answers(models.Model):
     objects = AnswerManager()
 
     def get_avatar(self):
-        return self.author.avatar
+        return self.author.avatar.url[8:]
 
     def __str__(self):
         return self.text
@@ -92,11 +92,18 @@ class UsersManager(models.Manager):
         query_result = Answers.objects.values('author__id').annotate(disease_count=Count('author__id')).order_by('-disease_count')
         return query_result.values('author__id').values('author__nick')[:5]
 
+    def get_avatar(self, id):
+        return Users.objects.get(user=id).avatar.url[8:]
+
+
+def avatar_upload_to(instance, filename):
+    return 'static/uploads/avatars/{}/{}'.format(instance.user.id, filename)
+
 
 class Users(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     nick = models.CharField(max_length=100, verbose_name='Логин')
-    avatar = models.ImageField(max_length=1024, default="/27804.png", verbose_name='Аватар')
+    avatar = models.ImageField(max_length=1024, upload_to=avatar_upload_to, default="static/27804.png", verbose_name='Аватар')
     objects = UsersManager()
 
     def __str__(self):

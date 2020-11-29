@@ -26,6 +26,7 @@ class Command(BaseCommand):
         parser.add_argument('--likes_questions', type=int, help='Questions likes count')
         parser.add_argument('--likes_answers', type=int, help='Answers likes count')
 
+
     def insert_data(self, model, data):
         step = 1000
         start = 0

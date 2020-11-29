@@ -1,5 +1,6 @@
-{%  extends 'inc/base.html' %}
+{% extends 'inc/base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 {% block content %}
 <div class="row type-question">
     <div class="col-3">Log in</div>
@@ -7,26 +8,16 @@
 <div class="row error">
     <p> Sorry, wrong password!</p>
 </div>
-<form>
-    <div class="form-group row">
-      <label for="inputTitle" class="col-sm-1 col-form-label login">Login</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputTitle">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputTags" class="col-sm-1 col-form-label login">Password</label>
-      <div class="col-sm-5">
-        <input type="password" class="form-control" id="inputTags">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="hidden" class="col-sm-1 col-form-label login"></label>
-      <div class="col-sm-10">
-        <button type="submit" class="btn btn-primary">Ask!</button>
-      </div>
-    </div>
-    <label for="hidden" class="col-sm-1 col-form-label login"></label>
-    <a href="#"> create new accout</a>
+<form class="form mt-5" method="POST" novalidate>
+    {%  csrf_token %}
+     {%  bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">Log In</button>
+    {% endbuttons %}
+    {% if request.GET.next %}
+    <a href={% url  'register'%}?next={{request.GET.next}}> create new account</a>
+    {%  else %}
+    <a href={% url  'register'%}> create new account</a>
+    {% endif %}
 </form>
 {% endblock content %}

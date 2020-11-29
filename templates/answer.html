@@ -1,5 +1,6 @@
 {%  extends 'inc/base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block content %}
     {% include 'inc/question_answer.html' %}
@@ -10,13 +11,16 @@
 
     <hr/>
     {% include 'inc/pagination.html' %}
-    <form>
-        <div class="form-group row">
-          <textarea type="textarea" class="form-control textarea-text" id="inputText" placeholder="Enter your answer here..."></textarea>
-        </div>
-
-        <div class="form-group row">
-          <button type="submit" class="btn btn-primary answer-btn">Answer!</button>
-        </div>
-    </form>
+    {% if user.is_authenticated %}
+        <form class="form mt-5" method="POST" novalidate>
+           {%  csrf_token %}
+           {%  bootstrap_form form %}
+           {% buttons %}
+            <button type="submit" class="btn btn-primary">Answer</button>
+           {% endbuttons %}
+        </form>
+    {% else %}
+        <h2> You need to login for write answer</h2>
+        <a href="{% url  'login'%}?next={% url 'question' id=id %}"> Log in</a>
+    {% endif %}
 {% endblock content %}
