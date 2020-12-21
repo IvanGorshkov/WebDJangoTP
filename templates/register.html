@@ -5,9 +5,6 @@
 <div class="row type-question">
     <div class="col-3">Registration</div>
 </div>
-<div class="row error">
-    <p> Sorry, this address allready registred!</p>
-</div>
 <form class="form mt-5" method="POST" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {% bootstrap_form form %}

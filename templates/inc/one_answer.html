@@ -4,21 +4,40 @@
 <div class="col-2">
   <div class="user_name"> {{ answer.author.nick }} </div>
   <img class="question-img" src=" {% static answer.get_avatar %}" />
-  <div class="row likes">
-      <span class="like-span"> <img class="question-like" src=" {% static "img/disslike.png" %}"/> </span>
-      <span class="like-span"> {{ answer.rating }} </span>
-      <img class="question-like" src=" {% static "img/like.png" %}"/>
-  </div>
+    {% if answer_info == None %}
+        <a class="js-vote" data-action="disslike" data-aid="{{ answer.pk }}"> <span class="like-span"> <img class="question-like" src="{% static "img/disslike.png" %}"/> </span> </a>
+    {% elif answer_info.status == False %}
+        <a class="js-vote" data-action="disslike" data-aid="{{ answer.pk }}"> <span class="like-span"> <img class="question-like my-fill" src="{% static "img/disslike.png" %}"/> </span> </a>
+    {% else %}
+        <a class="js-vote" data-action="disslike" data-aid="{{ answer.pk }}"> <span class="like-span"> <img class="question-like" src="{% static "img/disslike.png" %}"/> </span> </a>
+    {% endif %}
+    <span class="like-span" data-aid="{{ answer.pk }}"> {{ answer.rating }} </span>
+    {% if answer_info == None %}
+        <a class="js-vote" data-action="like" data-aid="{{ answer.pk }}"> <img class="question-like" src=" {% static "img/like.png" %}"/> </a>
+    {% elif answer_info.status == True %}
+        <a class="js-vote" data-action="like" data-aid="{{ answer.pk }}"> <img class="question-like my-fill" src=" {% static "img/like.png" %}"/> </a>
+    {% else%}
+        <a class="js-vote" data-action="like" data-aid="{{ answer.pk }}"> <img class="question-like" src=" {% static "img/like.png" %}"/> </a>
+    {% endif %}
+
   <div class="row date-answer"> Date: {{ answer.date }} </div>
 </div>
 <div class="col-10">
   <div class="question-text"> {{ answer.text }} </div>
   <div class="form-group">
     <div class="form-check">
-        {% if answer.correct == True %}
-             <input class="form-check-input" type="checkbox" value="" onclick="return false;" checked>
+        {% if request.user.users.id  == one_question.author_id %}
+            {% if answer.correct == True %}
+                 <input class="form-check-input correct" type="checkbox" value="" data-correct="{{ answer.pk }}" checked>
+            {% else %}
+                <input class="form-check-input correct" type="checkbox" value="" data-correct="{{ answer.pk }}">
+            {% endif %}
         {% else %}
-            <input class="form-check-input" type="checkbox" value="" onclick="return false;">
+            {% if answer.correct == True %}
+                 <input class="form-check-input correct" type="checkbox" value="" onclick="return false;" checked>
+            {% else %}
+                <input class="form-check-input correct" type="checkbox" value="" onclick="return false;">
+            {% endif %}
         {% endif %}
       <label class="form-check-label" for="invalidCheck2">
         Correct!

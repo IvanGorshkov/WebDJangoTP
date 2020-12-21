@@ -5,7 +5,7 @@
 {% block content %}
     {% include 'inc/question_answer.html' %}
     <hr/>
-    {% for answer in data  %}
+    {% for answer, answer_info in ans_data  %}
          {% include 'inc/one_answer.html' %}
     {% endfor %}
 
@@ -24,3 +24,8 @@
         <a href="{% url  'login'%}?next={% url 'question' id=id %}"> Log in</a>
     {% endif %}
 {% endblock content %}
+
+{% block jscode %}
+     <script src = "{% static "js/votes.js" %}"></script>
+     <script src = "{% static "js/correct.js" %}"></script>
+{% endblock jscode %}

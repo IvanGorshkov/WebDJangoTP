@@ -5,10 +5,16 @@
     <div class="col-3">New Question</div>
     <div class="col-4 hot-questions"><a href="{% url  'hot'%}">Hot Question</a></div>
 </div>
-    
-    {% for question in data  %}
+
+
+
+    {% for question, like in info  %}
          {% include 'inc/one_guestion.html' %}
     {% endfor %}
 
     {% include 'inc/pagination.html' %}
 {% endblock content %}
+
+{% block jscode %}
+     <script src = "{% static "js/votes.js" %}"></script>
+{% endblock jscode %}

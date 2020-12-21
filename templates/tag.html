@@ -4,10 +4,13 @@
 <div class="row type-question">
     <div class="col-3">Tag: <a>#{{ tag }}</a></div>
 </div>
-    {% for question in data  %}
+   {% for question, like in info  %}
          {% include 'inc/one_guestion.html' %}
     {% endfor %}
 
     {% include 'inc/pagination.html' %}
 {% endblock content %}
 
+{% block jscode %}
+     <script src = "{% static "js/votes.js" %}"></script>
+{% endblock jscode %}

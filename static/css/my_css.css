@@ -222,3 +222,7 @@ form {
 .user_name {
 	text-align: center;
 }
+
+.my-fill {
+	filter: hue-rotate(-90deg);
+}

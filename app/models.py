@@ -114,10 +114,24 @@ class Users(models.Model):
         verbose_name_plural = 'Пользователи'
 
 
+class QuestionsLikesManager(models.Manager):
+    def likes(self, data, id):
+        info = []
+        for question in data:
+            try:
+                info.append(self.get(author_id=id, question_id=question.pk))
+            except:
+                info.append(None)
+
+        print(info)
+        return info
+
+
 class QuestionsLikes(models.Model):
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     question = models.ForeignKey('Questions', on_delete=models.CASCADE)
     status = models.BooleanField(default=False, verbose_name='Отметка')
+    objects = QuestionsLikesManager()
 
     def __str__(self):
         return "Лайк вопроса {}".format(self.question.title)
@@ -127,10 +141,26 @@ class QuestionsLikes(models.Model):
         verbose_name_plural = 'Лайки вопросов'
 
 
+
+
+class AnswersLikesManager(models.Manager):
+    def likes(self, data, id):
+        info = []
+        for answer in data:
+            try:
+                info.append(self.get(author_id=id, answer_id=answer.pk))
+            except:
+                info.append(None)
+
+        print(info)
+        return info
+
+
 class AnswersLikes(models.Model):
     author = models.ForeignKey('Users', on_delete=models.CASCADE)
     answer = models.ForeignKey('Answers', on_delete=models.CASCADE)
     status = models.BooleanField(default=False, verbose_name='Отметка')
+    objects = AnswersLikesManager();
 
     def __str__(self):
         return "Лайк ответа {}".format(self.answer.question.title)

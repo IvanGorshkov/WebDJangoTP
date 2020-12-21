@@ -3,10 +3,25 @@
     <div class="col-2">
       <div class="user_name"> {{ one_question.author.nick }} </div>
       <img class="question-img" src=" {% static one_question.get_avatar %}" />
-      <div class="row likes">
-          <span class="like-span"> <img class="question-like" src=" {% static "img/disslike.png" %}"/> </span>
-          <span class="like-span"> {{ one_question.rating }} </span>
-          <img class="question-like" src=" {% static "img/like.png" %}"/>
+<div class="row likes">
+
+     {% if info == None %}
+            <a class="js-vote" data-action="disslike" data-qid="{{ one_question.pk }}"> <span class="like-span"> <img class="question-like" src="{% static "img/disslike.png" %}"/> </span> </a>
+         {% elif info.status == False %}
+            <a class="js-vote" data-action="disslike" data-qid="{{ one_question.pk }}"> <span class="like-span"> <img class="question-like my-fill" src="{% static "img/disslike.png" %}"/> </span> </a>
+          {% else %}
+            <a class="js-vote" data-action="disslike" data-qid="{{ one_question.pk }}"> <span class="like-span"> <img class="question-like" src="{% static "img/disslike.png" %}"/> </span> </a>
+          {% endif %}
+
+          <span class="like-span" data-qid="{{ one_question.pk }}"> {{ one_question.rating }} </span>
+          {% if info == None %}
+             <a class="js-vote" data-action="like" data-qid="{{ one_question.pk }}"> <img class="question-like" src=" {% static "img/like.png" %}"/> </a>
+         {% elif info.status == True %}
+             <a class="js-vote" data-action="like" data-qid="{{ one_question.pk }}"> <img class="question-like my-fill" src=" {% static "img/like.png" %}"/> </a>
+          {% else%}
+             <a class="js-vote" data-action="like" data-qid="{{ one_question.pk }}"> <img class="question-like" src=" {% static "img/like.png" %}"/> </a>
+          {% endif %}
+
       </div>
     </div>
     <div class="col-10">
