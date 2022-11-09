@@ -25,12 +25,11 @@ def index(request):
     })
 
 
-def tag(request, tag):
-    data = paginator(Questions.objects.tag(tag), request)
+def tag(request, id_tag):
+    data = paginator(Questions.objects.tag(id_tag), request)
     info = QuestionsLikes.objects.likes(data, request.user.pk)
-    print(info)
     return render(request, 'tag.html', {
-        'tag': tag,
+        'tag': id_tag,
         'data': data,
         'info': zip(data, info)
     })
@@ -62,7 +61,6 @@ def question(request, id):
     data = paginator(Answers.objects.answers_by_question(id), request)
     info = QuestionsLikes.objects.likes([Questions.objects.one_question(id)], request.user.pk)[0]
     vote_answer = AnswersLikes.objects.likes(data, request.user.pk)
-
     return render(request, 'answer.html', {
         'id': id,
         'one_question': Questions.objects.one_question(id),
@@ -99,8 +97,8 @@ def settings(request):
             'first_name': request.user.first_name,
             'last_name': request.user.last_name,
             'email': request.user.email,
-            'avatar': "/static/{}".format(Users.objects.get_avatar(request.user.pk)),
-            'change': "/static/{}".format(Users.objects.get_avatar(request.user.pk))
+            'avatar': Users.objects.get_avatar(request.user.pk),
+            'change': Users.objects.get_avatar(request.user.pk)
         })
     if request.method == "POST":
         form = SettingsForm(request.POST, request.FILES)
@@ -116,7 +114,6 @@ def settings(request):
             messages.success(request, 'Form submission successful')
     form.initial['avatar'] = "/static/{}".format(Users.objects.get_avatar(request.user.pk))
 
-    print(form.initial)
     ctx = {'form': form}
     return render(request, 'settings.html', ctx)
 
@@ -226,12 +223,9 @@ def vote_answer(request):
     return JsonResponse({'aid': data['aid'], 'rating': like_answer.rating})
 
 
-
 @require_POST
 @login_required
 def correct(request):
     data = request.POST
-    obj = Answers.objects.get(pk=data['aid'])
-    obj.correct = not obj.correct
-    obj.save()
+    Answers.objects.change_correct(data['aid'])
     return JsonResponse({'aid': data['aid']})

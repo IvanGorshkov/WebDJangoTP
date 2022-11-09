@@ -3,13 +3,13 @@
       <div>
         {% for tag in tags %}
             {% if tag.disease_count > 65 %}
-               <a href="{% url 'tag' tag=tag.tags__title %}" class="tag very-popluar">{{ tag.tags__title }}</a>
+               <a href="{% url 'tag' id_tag=tag.tags__title %}" class="tag very-popluar">{{ tag.tags__title }}</a>
             {% else %}
                 {% if tag.disease_count > 60 %}
-               <a href="{% url 'tag' tag=tag.tags__title %}" class="tag popluar">{{ tag.tags__title }}</a>
+               <a href="{% url 'tag' id_tag=tag.tags__title %}" class="tag popluar">{{ tag.tags__title }}</a>
                 {% else %}
                     {% if tag.disease_count > 0 %}
-                    <a href="{% url 'tag' tag=tag.tags__title %}" class="tag">{{ tag.tags__title }}</a>
+                    <a href="{% url 'tag' id_tag=tag.tags__title %}" class="tag">{{ tag.tags__title }}</a>
                     {% endif %}
                 {% endif %}
             {% endif %}

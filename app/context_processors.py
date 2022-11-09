@@ -7,7 +7,6 @@ def rightbar(request):
         avatar = Users.objects.get_avatar(request.user.pk)
     else:
         avatar = ""
-        print(avatar)
     return {
         'tags': Tags.objects.popular_tags(),
         'users': Users.objects.popular_users(),

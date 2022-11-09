@@ -26,7 +26,7 @@ SECRET_KEY = 't2)09$teu&d@(@i9efz(3#-tqq!uf0xyhdx@!=5um%x&a%w_k)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.42', '127.0.0.1', 'localhost', 'askme.ru']
 
 
 # Application definition
@@ -129,3 +129,4 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = '/login/'
+MEDIA_URL = '/uploads/'

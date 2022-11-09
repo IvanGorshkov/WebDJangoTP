@@ -2,9 +2,7 @@
 <div class="row question-box question-box-answer">
     <div class="col-2">
       <div class="user_name"> {{ one_question.author.nick }} </div>
-      <img class="question-img" src=" {% static one_question.get_avatar %}" />
-<div class="row likes">
-
+      <img class="question-img" src="{{ one_question.get_avatar }}" />
      {% if info == None %}
             <a class="js-vote" data-action="disslike" data-qid="{{ one_question.pk }}"> <span class="like-span"> <img class="question-like" src="{% static "img/disslike.png" %}"/> </span> </a>
          {% elif info.status == False %}
@@ -21,8 +19,6 @@
           {% else%}
              <a class="js-vote" data-action="like" data-qid="{{ one_question.pk }}"> <img class="question-like" src=" {% static "img/like.png" %}"/> </a>
           {% endif %}
-
-      </div>
     </div>
     <div class="col-10">
       <div class="question-title">{{ one_question.title }}</div>
@@ -30,7 +26,7 @@
       <div class="row question-footer">
         <div class="col-5 question-tags"> Tags:
             {% for tag in one_question.all_tags  %}
-              <a href={% url 'tag' tag=tag %}>{{ tag.title }}</a>
+              <a href={% url 'tag' id_tag=tag %}>{{ tag.title }}</a>
             {%  endfor %}
         </div>
         <div class="col-7 date"> Date: {{ one_question.date }} </div>

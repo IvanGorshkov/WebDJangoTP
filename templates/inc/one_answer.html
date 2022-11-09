@@ -3,7 +3,7 @@
 <div class="row answer-box">
 <div class="col-2">
   <div class="user_name"> {{ answer.author.nick }} </div>
-  <img class="question-img" src=" {% static answer.get_avatar %}" />
+  <img class="question-img" src=" {{ answer.get_avatar }}" />
     {% if answer_info == None %}
         <a class="js-vote" data-action="disslike" data-aid="{{ answer.pk }}"> <span class="like-span"> <img class="question-like" src="{% static "img/disslike.png" %}"/> </span> </a>
     {% elif answer_info.status == False %}

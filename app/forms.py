@@ -34,7 +34,7 @@ class RegisterForm(UserCreationForm):
 class PictureWidget(forms.widgets.Widget):
     def render(self, name, value, attrs=None, **kwargs):
         html = Template("""<br/><br/><img id = "myimage" src="$link" width="100" height="100"/>""")
-        return mark_safe(html.substitute(link=value))
+        return mark_safe(html.substitute(link=value[8:]))
 
 
 class SettingsForm(forms.ModelForm):

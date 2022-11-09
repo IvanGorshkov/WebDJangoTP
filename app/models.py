@@ -27,7 +27,7 @@ class Questions(models.Model):
     objects = QuestionManager()
 
     def get_avatar(self):
-        return self.author.avatar.url[8:]
+        return self.author.avatar.url
 
     def all_tags(self):
         return self.tags.all()
@@ -44,6 +44,11 @@ class Questions(models.Model):
 
 
 class AnswerManager(models.Manager):
+    def change_correct(self, id):
+        obj = self.get(pk=id)
+        obj.correct = not obj.correct
+        obj.save()
+
     def answers_by_question(self, id):
         return self.filter(question_id=id)
 
@@ -58,7 +63,7 @@ class Answers(models.Model):
     objects = AnswerManager()
 
     def get_avatar(self):
-        return self.author.avatar.url[8:]
+        return self.author.avatar.url
 
     def __str__(self):
         return self.text
@@ -93,17 +98,17 @@ class UsersManager(models.Manager):
         return query_result.values('author__id').values('author__nick')[:5]
 
     def get_avatar(self, id):
-        return Users.objects.get(user=id).avatar.url[8:]
+        return self.get(user=id).avatar.url
 
 
 def avatar_upload_to(instance, filename):
-    return 'static/uploads/avatars/{}/{}'.format(instance.user.id, filename)
+    return 'avatars/{}/{}'.format(instance.user.id, filename)
 
 
 class Users(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     nick = models.CharField(max_length=100, verbose_name='Логин')
-    avatar = models.ImageField(max_length=1024, upload_to=avatar_upload_to, default="static/27804.png", verbose_name='Аватар')
+    avatar = models.ImageField(max_length=1024, upload_to=avatar_upload_to, default="avatars/27804.png", verbose_name='Аватар')
     objects = UsersManager()
 
     def __str__(self):
@@ -122,8 +127,6 @@ class QuestionsLikesManager(models.Manager):
                 info.append(self.get(author_id=id, question_id=question.pk))
             except:
                 info.append(None)
-
-        print(info)
         return info
 
 
@@ -141,8 +144,6 @@ class QuestionsLikes(models.Model):
         verbose_name_plural = 'Лайки вопросов'
 
 
-
-
 class AnswersLikesManager(models.Manager):
     def likes(self, data, id):
         info = []
@@ -152,7 +153,6 @@ class AnswersLikesManager(models.Manager):
             except:
                 info.append(None)
 
-        print(info)
         return info
 
 

@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('settings/', views.settings, name='settings'),
-    path('tag/<slug:tag>/', views.tag, name='tag'),
+    path('tag/<slug:id_tag>/', views.tag, name='tag'),
     path('question/<int:id>/', views.question, name='question'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
@@ -32,7 +34,9 @@ urlpatterns = [
     path('vote/', views.vote, name='vote'),
     path('vote_answer/', views.vote_answer, name='vote_answer'),
     path('correct/', views.correct, name='correct')
+
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'app.views.error_404_view'
 handler500 = 'app.views.error_500_view'
